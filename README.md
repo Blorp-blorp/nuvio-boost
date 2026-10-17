@@ -13,7 +13,7 @@ Works on Android TV, Google TV, Nvidia Shield and Fire TV. Run it from a Mac, Wi
 | | What you do | Time |
 |---|---|---|
 | **First time** | Paste one command, type your TV's IP address | About 2 minutes |
-| **After every Nuvio update** | Type `nuvioboost` and press **Enter** | About 30 seconds |
+| **After every Nuvio update** | Type `nuvioboost` and press **Enter** | About a minute per TV |
 
 That's it. On the first run, Nuvio Boost remembers your TVs and adds a `nuvioboost` shortcut to your computer. After that, one word re-applies the fix on every TV you have.
 
@@ -100,7 +100,7 @@ Nuvio Boost tells your TV to fully compile Nuvio up front. Settings, logins and 
 ## Why use this instead of the manual steps?
 
 - **Re-applying is one word:** `nuvioboost`. No IPs to look up, no commands to remember.
-- **Nothing to install.** If you don't have adb, it downloads Google's official tools into its own folder.
+- **No setup needed.** If you don't have adb, it downloads Google's official tools into its own folder.
 - **Mac, Windows and Linux.** Most guides only cover Windows.
 - **All your TVs in one go.**
 - **Plain-English errors** instead of cryptic adb messages.
@@ -153,6 +153,8 @@ Delete `~/.nuvio-boost` (Mac/Linux) or `%LOCALAPPDATA%\nuvio-boost` (Windows). T
 </details>
 
 ---
+
+**Tested on:** a Mac with two Nvidia Shields. The Windows script and the Google TV pairing flow haven't been tested on real devices yet, so reports are very welcome.
 
 **Found a problem?** [Open an issue](../../issues) with your device, operating system and the error message.
 
