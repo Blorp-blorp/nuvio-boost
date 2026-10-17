@@ -37,42 +37,19 @@ Tip: save this command somewhere handy, like a note on your phone or computer. I
 
 ---
 
-## What it looks like
+## Using it
 
-**First run.** Type your TV's IP address. For more than one TV, separate them with spaces.
+### First time
+1. Turn on debugging on your TV (steps below).
+2. Paste the command into Terminal (Mac) or PowerShell (Windows).
+3. Type your TV's IP address and press Enter. More than one TV? Type them all, separated by spaces.
+4. Accept the popup on your TV.
 
-```
-Nuvio Boost
+### After every Nuvio update
+1. Paste the same command.
+2. Press Enter.
 
-  ✓ adb ready
-
-  Enter TV IP address(es), separated by spaces: 192.168.1.50 192.168.1.51
-
-192.168.1.50:5555
-  ✓ Connected
-  ! Look at your TV: allow debugging and tick 'Always allow from this computer'.
-  ✓ Boosted com.nuvio.tv
-
-192.168.1.51:5555
-  ✓ Connected
-  ✓ Boosted com.nuvio.tv
-
-  ✓ Done: 2 of 2 TV(s) boosted.
-```
-
-**Every run after that.** Just press Enter.
-
-```
-Nuvio Boost
-
-  Saved TVs: 192.168.1.50:5555 192.168.1.51:5555
-  Press Enter to use these, or type new IP addresses: ⏎
-
-  ✓ Boosted com.nuvio.tv
-  ✓ Boosted com.nuvio.tv
-
-  ✓ Done: 2 of 2 TV(s) boosted.
-```
+Done. Every TV you set up is boosted again.
 
 ---
 
