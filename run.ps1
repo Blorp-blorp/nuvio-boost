@@ -135,6 +135,23 @@
     return $allOk
   }
 
+
+  # ---- One-word shortcut for next time -----------------------------------
+  function Install-Shortcut {
+    $dir     = Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps'
+    $cmdFile = Join-Path $dir 'nuvioboost.cmd'
+    $marker  = Join-Path $AppDir 'no-shortcut'
+    if (Test-Path $cmdFile) { return $true }
+    if ((Test-Path $marker) -or -not (Test-Path $dir)) { return $false }
+    Write-Host ""
+    $yn = Read-Host "  Create a 'nuvioboost' shortcut so next time you just type nuvioboost? [Y/n]"
+    if ($yn -match '^(n|no)$') { New-Item -ItemType File -Force -Path $marker | Out-Null; return $false }
+    $line = '@powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.ps1 | iex"'
+    try { Set-Content -Path $cmdFile -Value $line -Encoding ASCII } catch { Warn "Couldn't create the shortcut."; return $false }
+    Ok "Shortcut added."
+    return $true
+  }
+
   # ---- Which TVs? ----------------------------------------------------------
   $saved = @()
   if (Test-Path $SavedFile) { $saved = @(Get-Content $SavedFile | Where-Object { $_.Trim() }) }
@@ -162,11 +179,19 @@
   Set-Content -Path $SavedFile -Value $used
   Invoke-Adb @('kill-server') | Out-Null
 
+  $hasShortcut = $false
+  if ($done -gt 0) { $hasShortcut = Install-Shortcut }
+
   Write-Host ""
   if ($done -eq $total) {
-    Ok "Done: $done of $total TV(s) boosted. Run this again after each Nuvio update."
+    Ok "Done: $done of $total TV(s) boosted."
   } else {
     Warn "Done: $done of $total TV(s) boosted. Fix the issues above and run again."
+  }
+  if ($hasShortcut) {
+    Write-Host "`n  After the next Nuvio update, open PowerShell or Command Prompt and type: nuvioboost" -ForegroundColor White
+  } else {
+    Info "Run this again after each Nuvio update."
   }
   Write-Host ""
 }

@@ -150,6 +150,27 @@ main() {
     [ $all_ok -eq 1 ]
   }
 
+
+  # ---- One-word shortcut for next time -----------------------------------
+  install_shortcut() {
+    local rc yn
+    case "$(basename "${SHELL:-}")" in
+      zsh)  rc="$HOME/.zshrc" ;;
+      bash) if [ "$PLATFORM" = darwin ]; then rc="$HOME/.bash_profile"; else rc="$HOME/.bashrc"; fi ;;
+      *)    return 1 ;;
+    esac
+    grep -q "alias nuvioboost=" "$rc" 2>/dev/null && return 0
+    [ -f "$APP_DIR/no-shortcut" ] && return 1
+    echo
+    yn="$(ask "  Create a 'nuvioboost' shortcut so next time you just type nuvioboost? [Y/n]: ")"
+    case "$yn" in
+      n|N|no|No|NO) touch "$APP_DIR/no-shortcut"; return 1 ;;
+    esac
+    printf '\n# Nuvio Boost shortcut\nalias nuvioboost='"'"'curl -fsSL https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.sh | bash'"'"'\n' >> "$rc"
+    ok "Shortcut added."
+    return 0
+  }
+
   # ---- Which TVs? ----------------------------------------------------------
   SAVED=""
   [ -f "$SAVED_FILE" ] && SAVED="$(tr '\n' ' ' < "$SAVED_FILE" | sed 's/ *$//')"
@@ -178,11 +199,19 @@ main() {
   printf '%s\n' $USED > "$SAVED_FILE"
   "$ADB" kill-server >/dev/null 2>&1
 
+  HAS_SHORTCUT=0
+  if [ "$DONE" -gt 0 ] && install_shortcut; then HAS_SHORTCUT=1; fi
+
   echo
   if [ "$DONE" -eq "$TOTAL" ]; then
-    ok "Done: $DONE of $TOTAL TV(s) boosted. Run this again after each Nuvio update."
+    ok "Done: $DONE of $TOTAL TV(s) boosted."
   else
     warn "Done: $DONE of $TOTAL TV(s) boosted. Fix the issues above and run again."
+  fi
+  if [ "$HAS_SHORTCUT" -eq 1 ]; then
+    printf '\n  %sAfter the next Nuvio update, open a new Terminal window and type: nuvioboost%s\n' "$B" "$N"
+  else
+    info "Run this again after each Nuvio update."
   fi
   echo
 }
