@@ -12,6 +12,17 @@ Nuvio Boost tells your TV to fully compile Nuvio ahead of time with `pm compile 
 
 **You need to run it again after every Nuvio update**, because updating replaces the compiled code.
 
+## Why use this instead of the manual steps
+
+The manual fix works, but you have to redo it after every Nuvio update, on every TV. Nuvio Boost turns that into a one-step job:
+
+- **Re-applying takes seconds.** It remembers your TVs, so after an update you paste the same command and press Enter.
+- **Nothing to set up on your computer.** If you don't have adb, it downloads Google's official tools into its own folder.
+- **Works on Mac, Windows and Linux.** Most guides only cover Windows.
+- **Does all your TVs in one go** if you have more than one.
+- **Explains problems in plain English**, such as a missed popup on the TV, a Mac permission setting or a wrong IP, instead of a cryptic adb error.
+- **Finds Nuvio for you**, including beta builds, so you don't need to know the package name.
+
 ## Before you start (once per TV)
 
 Your computer and TV need to be on the same network.
