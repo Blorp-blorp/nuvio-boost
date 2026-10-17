@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/nuvio-boost-social-preview.png" alt="Nuvio Boost" width="640"></p>
+
 # Nuvio Boost
 
 Make the sideloaded (GitHub) version of Nuvio run as smoothly as the Play Store version on Android TV, Google TV, Nvidia Shield and Fire TV.
