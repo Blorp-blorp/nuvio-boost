@@ -2,73 +2,135 @@
 
 # Nuvio Boost
 
-Make the sideloaded (GitHub) version of Nuvio run as smoothly as the Play Store version on Android TV, Google TV, Nvidia Shield and Fire TV.
+**Make sideloaded Nuvio run as smoothly as the Play Store version, and keep it that way with one command after every update.**
 
-## Why the GitHub version feels slower
+Works on Android TV, Google TV, Nvidia Shield and Fire TV. Run it from a Mac, Windows or Linux computer.
 
-Play Store installs come with performance profiles that let Android compile the app ahead of time. Sideloaded APKs skip that, so the app compiles code as it runs, which shows up as slow starts, stuttery menus and laggy posters.
+---
 
-Nuvio Boost tells your TV to fully compile Nuvio ahead of time with `pm compile -m speed`. Your settings, logins and trailers are not touched. It uses roughly 30–60 MB of extra storage.
+## How it works
 
-**You need to run it again after every Nuvio update**, because updating replaces the compiled code.
+| | What you do | Time |
+|---|---|---|
+| **First time** | Paste one command, type your TV's IP address | About 2 minutes |
+| **After every Nuvio update** | Paste the same command, press **Enter** | About 30 seconds |
 
-## Why use this instead of the manual steps
+That's it. Nuvio Boost remembers your TVs, so every run after the first is just paste and Enter. It reconnects, finds Nuvio and re-applies the fix on every TV you have.
 
-The manual fix works, but you have to redo it after every Nuvio update, on every TV. Nuvio Boost turns that into a one-step job:
+---
 
-- **Re-applying takes seconds.** It remembers your TVs, so after an update you paste the same command and press Enter.
-- **Nothing to set up on your computer.** If you don't have adb, it downloads Google's official tools into its own folder.
-- **Works on Mac, Windows and Linux.** Most guides only cover Windows.
-- **Does all your TVs in one go** if you have more than one.
-- **Explains problems in plain English**, such as a missed popup on the TV, a Mac permission setting or a wrong IP, instead of a cryptic adb error.
-- **Finds Nuvio for you**, including beta builds, so you don't need to know the package name.
+## The command
 
-## Before you start (once per TV)
-
-Your computer and TV need to be on the same network.
-
-**Android TV / Nvidia Shield**
-1. Settings > Device Preferences > About > click **Build** 7 times.
-2. Settings > Device Preferences > Developer options > turn on **Network debugging** (or USB debugging).
-3. Note the TV's IP address under Settings > Network & Internet.
-
-**Newer Google TV** (Chromecast with Google TV, recent Sony/TCL/Hisense)
-1. Settings > System > About > click **Android TV OS build** 7 times.
-2. Settings > System > Developer options > turn on **Wireless debugging**.
-3. The script will walk you through a one-time pairing code.
-
-**Fire TV**
-1. Settings > My Fire TV > About > click your device name 7 times.
-2. My Fire TV > Developer options > turn on **ADB debugging**.
-3. Note the IP under My Fire TV > About > Network.
-
-## Run it
-
-**Mac or Linux:** open Terminal and paste:
+**Mac or Linux** (open Terminal):
 
 ```
 curl -fsSL https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.sh | bash
 ```
 
-**Windows:** open PowerShell and paste:
+**Windows** (open PowerShell):
 
 ```
 irm https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.ps1 | iex
 ```
 
-Enter your TV's IP address when asked. For several TVs, separate them with spaces. The first time you connect, **look at your TV** and accept the "Allow debugging?" popup, ticking "Always allow from this computer".
+Tip: save this command somewhere handy, like a note on your phone or computer. It's the only thing you'll need after each update.
 
-Your TVs are remembered, so next time you just press Enter.
+---
 
-## What it does
+## What it looks like
 
-1. Uses `adb` if you already have it. Otherwise downloads Google's official platform-tools into its own folder. Nothing is installed system-wide.
-2. Connects to each TV, waits for you to approve the connection, finds Nuvio and compiles it.
-3. Saves your TV addresses for next time and disconnects.
+**First run.** Type your TV's IP address. For more than one TV, separate them with spaces.
 
-The scripts are short and readable. Please read them before running if you like.
+```
+Nuvio Boost
 
-## Troubleshooting
+  ✓ adb ready
+
+  Enter TV IP address(es), separated by spaces: 192.168.1.50 192.168.1.51
+
+192.168.1.50:5555
+  ✓ Connected
+  ! Look at your TV: allow debugging and tick 'Always allow from this computer'.
+  ✓ Boosted com.nuvio.tv
+
+192.168.1.51:5555
+  ✓ Connected
+  ✓ Boosted com.nuvio.tv
+
+  ✓ Done: 2 of 2 TV(s) boosted.
+```
+
+**Every run after that.** Just press Enter.
+
+```
+Nuvio Boost
+
+  Saved TVs: 192.168.1.50:5555 192.168.1.51:5555
+  Press Enter to use these, or type new IP addresses: ⏎
+
+  ✓ Boosted com.nuvio.tv
+  ✓ Boosted com.nuvio.tv
+
+  ✓ Done: 2 of 2 TV(s) boosted.
+```
+
+---
+
+## Before your first run (once per TV)
+
+Turn on debugging on your TV and note its IP address. Your computer and TV must be on the same network.
+
+<details>
+<summary><b>Android TV / Nvidia Shield</b></summary>
+
+1. Settings > Device Preferences > About > click **Build** 7 times.
+2. Settings > Device Preferences > Developer options > turn on **Network debugging** (or USB debugging).
+3. Find the IP address under Settings > Network & Internet.
+</details>
+
+<details>
+<summary><b>Newer Google TV</b> (Chromecast with Google TV, recent Sony / TCL / Hisense)</summary>
+
+1. Settings > System > About > click **Android TV OS build** 7 times.
+2. Settings > System > Developer options > turn on **Wireless debugging**.
+3. When the script asks, answer **y** to the Wireless debugging question. It walks you through a one-time pairing code.
+</details>
+
+<details>
+<summary><b>Fire TV</b></summary>
+
+1. Settings > My Fire TV > About > click your device name 7 times.
+2. My Fire TV > Developer options > turn on **ADB debugging**.
+3. Find the IP address under My Fire TV > About > Network.
+</details>
+
+The first time you connect, **look at your TV** and accept the "Allow debugging?" popup, ticking **Always allow from this computer**. You won't be asked again.
+
+---
+
+## Why sideloaded Nuvio feels slow
+
+Play Store installs come with performance profiles that let Android compile the app ahead of time. Sideloaded APKs skip that, so you get slow starts, stuttery menus and laggy posters.
+
+Nuvio Boost tells your TV to fully compile Nuvio up front. Settings, logins and trailers aren't touched, and it uses about 30–60 MB of extra storage. Each Nuvio update replaces the compiled code, which is why you re-run it after updating.
+
+---
+
+## Why use this instead of the manual steps?
+
+- **Re-applying is paste and Enter.** No IPs to look up, no commands to remember.
+- **Nothing to install.** If you don't have adb, it downloads Google's official tools into its own folder.
+- **Mac, Windows and Linux.** Most guides only cover Windows.
+- **All your TVs in one go.**
+- **Plain-English errors** instead of cryptic adb messages.
+- **Finds Nuvio automatically**, including beta builds.
+
+Already happy with ATVTools? No need to switch.
+
+---
+
+<details>
+<summary><b>Troubleshooting</b></summary>
 
 | Message | Fix |
 |---|---|
@@ -76,25 +138,39 @@ The scripts are short and readable. Please read them before running if you like.
 | `Connection refused` | Debugging is off on the TV, or the IP is wrong. Newer Google TVs: answer **y** to the Wireless debugging question. |
 | Stuck waiting / not authorized | Accept the popup on the TV. If you missed it, run again. |
 | `Nuvio isn't installed` | Make sure Nuvio is installed on that TV. |
-| IP keeps changing | Set a DHCP reservation for the TV in your router. |
+| A saved TV stopped working | Its IP probably changed. Type the new IP instead of pressing Enter. To stop it happening, set a DHCP reservation for the TV in your router. |
 | Windows: "running scripts is disabled" | Run `Set-ExecutionPolicy -Scope Process Bypass` in the same window, then the command again. |
+</details>
 
-## Doing it by hand
+<details>
+<summary><b>What the script does, exactly</b></summary>
+
+1. Uses `adb` if you already have it. Otherwise it downloads Google's official platform-tools into `~/.nuvio-boost` (Mac/Linux) or `%LOCALAPPDATA%\nuvio-boost` (Windows). Nothing is installed system-wide.
+2. Connects to each TV and waits for you to approve the connection.
+3. Finds every installed package containing "nuvio" and runs `pm compile -m speed -f` on it.
+4. Saves your TV addresses for next time and disconnects.
+
+The scripts are short and readable. Have a look before running them if you like: [run.sh](run.sh), [run.ps1](run.ps1).
+</details>
+
+<details>
+<summary><b>Doing it by hand</b></summary>
 
 ```
 adb connect <TV-IP>:5555
 adb shell pm list packages | grep -i nuvio      # Windows: findstr /i nuvio
 adb shell pm compile -m speed -f com.nuvio.tv
 ```
+</details>
 
-## Removing it
+<details>
+<summary><b>Removing it</b></summary>
 
 Delete `~/.nuvio-boost` (Mac/Linux) or `%LOCALAPPDATA%\nuvio-boost` (Windows). To undo the compile on a TV, run `adb shell pm compile --reset com.nuvio.tv`, or just update Nuvio.
+</details>
 
-## Disclaimer
+---
 
-Not affiliated with Nuvio. Use at your own risk. This only changes how Android compiles the app; it doesn't modify the app itself.
+**Found a problem?** [Open an issue](../../issues) with your device, operating system and the error message.
 
-## License
-
-MIT
+Not affiliated with Nuvio. Use at your own risk. This only changes how Android compiles the app, not the app itself. MIT licensed.
