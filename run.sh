@@ -209,7 +209,7 @@ main() {
     warn "Done: $DONE of $TOTAL TV(s) boosted. Fix the issues above and run again."
   fi
   if [ "$HAS_SHORTCUT" -eq 1 ]; then
-    printf '\n  %sNext time, open a NEW Terminal window (it won't work in this one) and type: nuvioboost%s\n' "$B" "$N"
+    printf '\n  %sNext time, open a NEW Terminal window (it will not work in this one) and type: nuvioboost%s\n' "$B" "$N"
   else
     info "Run this again after each Nuvio update."
   fi
