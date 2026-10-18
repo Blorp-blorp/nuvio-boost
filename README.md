@@ -119,6 +119,7 @@ Already happy with ATVTools? No need to switch.
 | `Connection refused` | Debugging is off on the TV, or the IP is wrong. Newer Google TVs: answer **y** to the Wireless debugging question. |
 | Stuck waiting / not authorized | Accept the popup on the TV. If you missed it, run again. |
 | `Nuvio isn't installed` | Make sure Nuvio is installed on that TV. |
+| Windows Defender blocked `nuvioboost` | Fixed in the current version. Re-run the setup command once and it replaces the old shortcut. |
 | `nuvioboost: command not found` | Open a new Terminal window; the shortcut only works in windows opened after it was created. |
 | A saved TV stopped working | Its IP probably changed. Type the new IP instead of pressing Enter. To stop it happening, set a DHCP reservation for the TV in your router. |
 | Windows: "running scripts is disabled" | Run `Set-ExecutionPolicy -Scope Process Bypass` in the same window, then the command again. |
@@ -131,7 +132,7 @@ Already happy with ATVTools? No need to switch.
 2. Connects to each TV and waits for you to approve the connection.
 3. Finds every installed package containing "nuvio" and runs `pm compile -m speed -f` on it.
 4. Saves your TV addresses for next time and disconnects.
-5. Offers to add a `nuvioboost` shortcut: an alias in your shell profile on Mac/Linux, or a small `nuvioboost.cmd` in `%LOCALAPPDATA%\Microsoft\WindowsApps` on Windows. The shortcut always runs the latest version of the script from this repo.
+5. Offers to add a `nuvioboost` shortcut: an alias in your shell profile on Mac/Linux, or a small `nuvioboost.cmd` in `%LOCALAPPDATA%\Microsoft\WindowsApps` on Windows. On Mac/Linux the shortcut runs the latest version from this repo. On Windows it runs a saved local copy; re-run the setup command to update it.
 
 The scripts are short and readable. Have a look before running them if you like: [run.sh](run.sh), [run.ps1](run.ps1).
 </details>

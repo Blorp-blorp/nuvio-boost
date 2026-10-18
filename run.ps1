@@ -137,18 +137,38 @@
 
 
   # ---- One-word shortcut for next time -----------------------------------
+  # Saves a copy of this script locally and points the shortcut at that file,
+  # so the shortcut never downloads-and-runs code (which antivirus rightly flags).
   function Install-Shortcut {
     $dir     = Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps'
     $cmdFile = Join-Path $dir 'nuvioboost.cmd'
+    $local   = Join-Path $AppDir 'nuvio-boost.ps1'
     $marker  = Join-Path $AppDir 'no-shortcut'
-    if (Test-Path $cmdFile) { return $true }
-    if ((Test-Path $marker) -or -not (Test-Path $dir)) { return $false }
-    Write-Host ""
-    $yn = Read-Host "  Create a 'nuvioboost' shortcut so next time you just type nuvioboost? [Y/n]"
-    if ($yn -match '^(n|no)$') { New-Item -ItemType File -Force -Path $marker | Out-Null; return $false }
-    $line = '@powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.ps1 | iex"'
-    try { Set-Content -Path $cmdFile -Value $line -Encoding ASCII } catch { Warn "Couldn't create the shortcut."; return $false }
-    Ok "Shortcut added."
+    $url     = 'https://raw.githubusercontent.com/Blorp-blorp/nuvio-boost/main/run.ps1'
+    $line    = '@powershell -NoProfile -ExecutionPolicy RemoteSigned -File "%LOCALAPPDATA%\nuvio-boost\nuvio-boost.ps1"'
+
+    $exists = Test-Path $cmdFile
+    $isOld  = $exists -and ((Get-Content $cmdFile -Raw) -match 'iex')
+
+    # Already set up and running from the saved copy: nothing to do
+    if ($exists -and -not $isOld -and $PSCommandPath) { return $true }
+
+    if (-not $exists) {
+      if ((Test-Path $marker) -or -not (Test-Path $dir)) { return $false }
+      Write-Host ""
+      $yn = Read-Host "  Create a 'nuvioboost' shortcut so next time you just type nuvioboost? [Y/n]"
+      if ($yn -match '^(n|no)$') { New-Item -ItemType File -Force -Path $marker | Out-Null; return $false }
+    }
+
+    try {
+      $code = Invoke-RestMethod -UseBasicParsing -Uri $url
+      Set-Content -Path $local -Value $code -Encoding UTF8
+      Set-Content -Path $cmdFile -Value $line -Encoding ASCII
+    } catch {
+      Warn "Couldn't create the shortcut."
+      return $false
+    }
+    if (-not $exists) { Ok "Shortcut added." } elseif ($isOld) { Ok "Shortcut updated." }
     return $true
   }
 
